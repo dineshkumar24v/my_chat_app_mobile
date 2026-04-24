@@ -109,7 +109,11 @@ const UserList = () => {
           <TouchableOpacity
             style={[
               styles.userItem,
-              { backgroundColor: item.isSeen ? "transparent" : "#5183fe" },
+              { backgroundColor: item.isSeen ? "transparent" : "#fdf8c4" },
+              {
+                borderLeftWidth: item.isSeen ? 0 : 5,
+                borderLeftColor: "#f7c604",
+              },
             ]}
             onPress={() => handleSelect(item)}
           >
