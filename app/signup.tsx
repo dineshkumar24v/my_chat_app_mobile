@@ -139,7 +139,7 @@ const SignUp = () => {
             source={
               image.uri
                 ? { uri: image.uri }
-                : require("../assets/images/favicon.png")
+                : require("../assets/images/favicon1.png")
             }
             style={styles.avatar}
           />

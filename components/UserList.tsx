@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useRootNavigationState, useRouter } from "expo-router";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import {
@@ -24,6 +25,7 @@ const UserList = () => {
 
   const { currentUser } = useUserStore();
   const { changeChat } = useChatStore();
+  const router = useRouter();
 
   useEffect(() => {
     if (!currentUser?.id) return;
@@ -55,9 +57,16 @@ const UserList = () => {
     return () => unSub();
   }, [currentUser?.id]);
 
-  const handleSelect = async (chat: any) => {
+  const rootNavigationState = useRootNavigationState();
+
+  const handleSelect = (chat: any) => {
+    if (!rootNavigationState?.key) return;
+
     changeChat(chat.chatId, chat.user);
-    // Add logic here to navigate to chat room if needed
+
+    requestAnimationFrame(() => {
+      router.push(`/chat/${chat.chatId}`);
+    });
   };
 
   const filteredChats = chats.filter((c) =>

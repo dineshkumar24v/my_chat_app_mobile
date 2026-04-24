@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons"; // Mobile equivalent of react-icons
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   Alert,
@@ -14,6 +15,7 @@ import { useUserStore } from "../store/userStore";
 const UserInfo = () => {
   const { currentUser } = useUserStore();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const router = useRouter();
 
   const handleLogout = async () => {
     Alert.alert("Logout", "Are you sure you want to logout?", [
@@ -38,17 +40,23 @@ const UserInfo = () => {
 
   return (
     <View style={styles.userInfoCont}>
-      <View style={styles.user}>
+      <TouchableOpacity
+        style={styles.user}
+        onPress={() => router.navigate("/explore")}
+        activeOpacity={0.7}
+        hitSlop={8}
+      >
         <Image
           source={
             currentUser.avatar
               ? { uri: currentUser.avatar }
-              : require("../assets/images/favicon.png")
+              : require("../assets/images/chat.png")
           }
           style={styles.avatar}
         />
         <Text style={styles.username}>{currentUser.username}</Text>
-      </View>
+        <Ionicons name="chevron-forward" size={16} color="#6b7280" />
+      </TouchableOpacity>
 
       <View style={styles.icons}>
         <TouchableOpacity onPress={() => setDropdownOpen(!dropdownOpen)}>

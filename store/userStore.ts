@@ -37,10 +37,14 @@ export const useUserStore = create<UserState>((set) => ({
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        // 4. Casting the data to our UserData interface
-        const data = docSnap.data() as Omit<UserData, "id">;
+        const data = docSnap.data() as Partial<UserData>;
         set({
-          currentUser: { id: uid, ...data },
+          currentUser: {
+            id: uid,
+            username: data.username ?? "",
+            email: data.email ?? "",
+            ...data,
+          },
           isLoading: false,
         });
         console.log("User data loaded:", data);
