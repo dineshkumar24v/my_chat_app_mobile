@@ -18,6 +18,8 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -32,6 +34,12 @@ import ChatDetails from "../../components/ChatDetails";
 import { db } from "../../firebaseConfig";
 import { useChatStore } from "../../store/chatStore";
 import { useUserStore } from "../../store/userStore";
+
+const EMOJI_GROUPS = [
+  ["😀", "😂", "😍", "🥳", "😎", "😭", "😡", "🙏"],
+  ["👍", "👏", "🙌", "🤝", "💙", "🔥", "✨", "🎉"],
+  ["❤️", "😊", "😉", "🤔", "😴", "🤗", "🥰", "😅"],
+];
 
 const getRelativeMessageTime = (createdAt: any) => {
   if (!createdAt) return "";
@@ -66,6 +74,7 @@ const ChatRoom = () => {
   const [writeText, setWriteText] = useState("");
   const [loading, setLoading] = useState(false);
   const [detailsVisible, setDetailsVisible] = useState(false);
+  const [emojiVisible, setEmojiVisible] = useState(false);
 
   const flatListRef = useRef<FlatList>(null);
 
@@ -90,7 +99,8 @@ const ChatRoom = () => {
   }, [chat?.messages]);
 
   useEffect(() => {
-    const showEvent = Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
+    const showEvent =
+      Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
     const subscription = Keyboard.addListener(showEvent, () => {
       setTimeout(() => {
         if (chat?.messages?.length > 0) {
@@ -137,7 +147,10 @@ const ChatRoom = () => {
       await sendMessage(res.data.secure_url, "");
     } catch (err) {
       console.error("Cloudinary Error:", err);
-      Alert.alert("Upload Failed", "Check your Cloudinary preset and cloud name.");
+      Alert.alert(
+        "Upload Failed",
+        "Check your Cloudinary preset and cloud name.",
+      );
     } finally {
       setLoading(false);
     }
@@ -195,13 +208,23 @@ const ChatRoom = () => {
     });
   };
 
+  const handleToggleEmojiPicker = () => {
+    if (emojiVisible) {
+      setEmojiVisible(false);
+      return;
+    }
+
+    Keyboard.dismiss();
+    setEmojiVisible(true);
+  };
+
+  const handleEmojiSelect = (emoji: string) => {
+    setWriteText((prev) => `${prev}${emoji}`);
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-      <StatusBar
-        style="light"
-        backgroundColor="#1a1a1a"
-        translucent={false}
-      />
+      <StatusBar style="light" backgroundColor="#1a1a1a" translucent={false} />
 
       {/* Header */}
       <View style={styles.header}>
@@ -292,6 +315,13 @@ const ChatRoom = () => {
           <TouchableOpacity onPress={pickImage}>
             <Ionicons name="image" size={28} color="#53acfb" />
           </TouchableOpacity>
+          <TouchableOpacity onPress={handleToggleEmojiPicker}>
+            <Ionicons
+              name={emojiVisible ? "happy" : "happy-outline"}
+              size={28}
+              color="#facc15"
+            />
+          </TouchableOpacity>
           <TextInput
             style={styles.input}
             placeholder={
@@ -300,6 +330,7 @@ const ChatRoom = () => {
             value={writeText}
             onChangeText={setWriteText}
             editable={!isCurrentUserBlocked && !isReceiverBlocked}
+            onFocus={() => setEmojiVisible(false)}
           />
           <TouchableOpacity
             onPress={() => sendMessage(null, writeText)}
@@ -312,6 +343,37 @@ const ChatRoom = () => {
             />
           </TouchableOpacity>
         </View>
+
+        {emojiVisible ? (
+          <View style={styles.emojiPanel}>
+            <View style={styles.emojiHeader}>
+              <Text style={styles.emojiTitle}>Emojis</Text>
+              <Pressable onPress={() => setEmojiVisible(false)}>
+                <Ionicons name="close" size={22} color="#9ca3af" />
+              </Pressable>
+            </View>
+
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.emojiGroups}
+            >
+              {EMOJI_GROUPS.map((group, groupIndex) => (
+                <View key={groupIndex} style={styles.emojiGroup}>
+                  {group.map((emoji) => (
+                    <TouchableOpacity
+                      key={emoji}
+                      style={styles.emojiButton}
+                      onPress={() => handleEmojiSelect(emoji)}
+                    >
+                      <Text style={styles.emojiText}>{emoji}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              ))}
+            </ScrollView>
+          </View>
+        ) : null}
       </KeyboardAvoidingView>
 
       <ChatDetails
@@ -423,5 +485,45 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     color: "#fff",
     height: 45,
+  },
+  emojiPanel: {
+    backgroundColor: "#111827",
+    borderTopWidth: 1,
+    borderTopColor: "#2b3548",
+    paddingTop: 12,
+    paddingBottom: 18,
+  },
+  emojiHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 14,
+    marginBottom: 10,
+  },
+  emojiTitle: {
+    color: "#fff",
+    fontSize: 15,
+    fontWeight: "700",
+  },
+  emojiGroups: {
+    paddingHorizontal: 10,
+    gap: 12,
+  },
+  emojiGroup: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: 224,
+    gap: 8,
+  },
+  emojiButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 16,
+    backgroundColor: "#1f2937",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  emojiText: {
+    fontSize: 24,
   },
 });
