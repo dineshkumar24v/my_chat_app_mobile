@@ -398,7 +398,7 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: "#1a1a1a", // Dark Navbar
     borderBottomWidth: 1,
-    borderBottomColor: "#333",
+    borderBottomColor: "#595858",
   },
   headerProfile: {
     flex: 1,
