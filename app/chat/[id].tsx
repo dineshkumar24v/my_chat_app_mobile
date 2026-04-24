@@ -440,7 +440,7 @@ const styles = StyleSheet.create({
     maxWidth: "80%",
   },
   myBubble: {
-    backgroundColor: "#007bff",
+    backgroundColor: "#102314",
     padding: 12,
     borderRadius: 15,
     borderBottomRightRadius: 2,
