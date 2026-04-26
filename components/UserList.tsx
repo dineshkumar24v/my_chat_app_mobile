@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
   readUserItem: {
     backgroundColor: "rgba(28, 11, 179, 0.08)",
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.05)",
+    borderColor: "rgba(3, 3, 3, 0.05)",
   },
   unreadUserItem: {
     overflow: "hidden",
