@@ -4,7 +4,7 @@
     "slug": "my_chat_app_mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/chat.png",
+    "icon": "./assets/images/team.png",
     "scheme": "mychatappmobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
