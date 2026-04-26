@@ -107,10 +107,7 @@ const UserList = () => {
         keyExtractor={(item) => item.chatId}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={[
-              styles.userItem,
-              !item.isSeen && styles.unreadUserItem,
-            ]}
+            style={[styles.userItem, !item.isSeen && styles.unreadUserItem]}
             onPress={() => handleSelect(item)}
           >
             <Image
@@ -171,7 +168,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.3)",
     borderLeftWidth: 2,
-    borderLeftColor: "rgba(255, 245, 157, 0.9)",
+    borderLeftColor: "rgba(112, 2, 246, 0.9)",
     shadowColor: "#ffffff",
     shadowOpacity: 0.12,
     shadowRadius: 18,
