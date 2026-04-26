@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { BlurView } from "expo-blur";
 import { useRootNavigationState, useRouter } from "expo-router";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
@@ -74,7 +75,9 @@ const UserList = () => {
   );
 
   if (loading)
-    return <ActivityIndicator style={{ marginTop: 20 }} size="large" />;
+    return (
+      <ActivityIndicator style={{ marginTop: 20 }} size="large" color="#fff" />
+    );
 
   return (
     <View style={styles.container}>
@@ -105,27 +108,48 @@ const UserList = () => {
       <FlatList
         data={filteredChats}
         keyExtractor={(item) => item.chatId}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={[styles.userItem, !item.isSeen && styles.unreadUserItem]}
-            onPress={() => handleSelect(item)}
-          >
-            <Image
-              source={
-                item.user?.avatar
-                  ? { uri: item.user.avatar }
-                  : require("../assets/images/favicon.png")
-              }
-              style={styles.avatar}
-            />
-            <View style={styles.userTexts}>
-              <Text style={styles.username}>{item.user?.username}</Text>
-              <Text style={styles.lastMessage} numberOfLines={1}>
-                {item.lastMessage}
-              </Text>
+        renderItem={({ item }) => {
+          const content = (
+            <View style={styles.userItemContent}>
+              <Image
+                source={
+                  item.user?.avatar
+                    ? { uri: item.user.avatar }
+                    : require("../assets/images/favicon.png")
+                }
+                style={styles.avatar}
+              />
+              <View style={styles.userTexts}>
+                <Text style={styles.username}>{item.user?.username}</Text>
+                <Text style={styles.lastMessage} numberOfLines={1}>
+                  {item.lastMessage}
+                </Text>
+              </View>
             </View>
-          </TouchableOpacity>
-        )}
+          );
+
+          return (
+            <TouchableOpacity
+              style={styles.userItem}
+              onPress={() => handleSelect(item)}
+              activeOpacity={0.88}
+            >
+              {item.isSeen ? (
+                <View style={styles.readUserItem}>{content}</View>
+              ) : (
+                <BlurView
+                  intensity={42}
+                  tint="light"
+                  experimentalBlurMethod="dimezisBlurView"
+                  style={styles.unreadUserItem}
+                >
+                  <View style={styles.unreadOverlay} />
+                  {content}
+                </BlurView>
+              )}
+            </TouchableOpacity>
+          );
+        }}
       />
 
       <AddUser visible={modalShow} onClose={() => setModalShow(false)} />
@@ -135,50 +159,77 @@ const UserList = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  search: { flexDirection: "row", padding: 10, gap: 10, alignItems: "center" },
+  search: {
+    flexDirection: "row",
+    paddingHorizontal: 14,
+    paddingTop: 14,
+    paddingBottom: 10,
+    gap: 10,
+    alignItems: "center",
+  },
   searchBar: {
     flex: 1,
     flexDirection: "row",
-    backgroundColor: "#7f7e7e",
-    borderRadius: 10,
-    paddingHorizontal: 10,
+    backgroundColor: "rgba(255, 255, 255, 0.34)",
+    borderRadius: 18,
+    paddingHorizontal: 14,
     alignItems: "center",
-    height: 45,
+    height: 46,
   },
-  searchInput: { flex: 1, color: "white", marginLeft: 5 },
+  searchInput: {
+    flex: 1,
+    color: "#f8fbff",
+    marginLeft: 8,
+    fontSize: 16,
+    fontWeight: "600",
+  },
   plusIcon: {
-    backgroundColor: "#7f7e7e",
-    borderRadius: 10,
-    width: 45,
-    height: 45,
+    backgroundColor: "rgba(255, 255, 255, 0.34)",
+    borderRadius: 16,
+    width: 46,
+    height: 46,
     justifyContent: "center",
     alignItems: "center",
   },
   userItem: {
+    overflow: "hidden",
+    borderRadius: 20,
+    marginHorizontal: 14,
+    marginVertical: 5,
+  },
+  userItemContent: {
     flexDirection: "row",
-    padding: 15,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
     alignItems: "center",
-    gap: 15,
-    marginHorizontal: 10,
-    marginVertical: 6,
-    borderRadius: 22,
+    gap: 14,
+  },
+  readUserItem: {
+    backgroundColor: "rgba(255, 255, 255, 0.08)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.05)",
   },
   unreadUserItem: {
-    backgroundColor: "rgba(255, 255, 255, 0.22)",
+    overflow: "hidden",
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.3)",
-    borderLeftWidth: 2,
-    borderLeftColor: "rgba(112, 2, 246, 0.9)",
-    shadowColor: "#ffffff",
-    shadowOpacity: 0.12,
-    shadowRadius: 18,
+    borderColor: "rgba(255, 255, 255, 0.18)",
+    shadowColor: "#000000",
+    shadowOpacity: 0.16,
+    shadowRadius: 16,
     shadowOffset: { width: 0, height: 6 },
     elevation: 5,
+    backgroundColor: "rgba(255, 255, 255, 0.08)",
+  },
+  unreadOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(116, 113, 113, 0.08)",
+    borderLeftColor: "#53acfb",
+    borderLeftWidth: 4,
   },
   avatar: { width: 50, height: 50, borderRadius: 25 },
   userTexts: { flex: 1 },
-  username: { fontWeight: "bold", fontSize: 16 },
-  lastMessage: { color: "gray", fontSize: 14 },
+  username: { fontWeight: "700", fontSize: 18, color: "#0e3e7c" },
+  lastMessage: { color: "rgba(57, 63, 72, 0.82)", fontSize: 15 },
 });
 
 export default UserList;
