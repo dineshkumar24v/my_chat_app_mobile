@@ -1,4 +1,5 @@
 import { Link } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -12,6 +13,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { authentication } from "../firebaseConfig";
 
 const Login = () => {
@@ -54,59 +56,62 @@ const Login = () => {
   };
 
   return (
-    // KeyboardAvoidingView prevents the keyboard from covering the inputs
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.loginContainer}
-    >
-      <View style={styles.innerContainer}>
-        <Text style={styles.loginh1}>Login</Text>
+    <SafeAreaView style={styles.safeArea} edges={["top"]}>
+      <StatusBar style="dark" backgroundColor="#fff" translucent={false} />
+      {/* KeyboardAvoidingView prevents the keyboard from covering the inputs */}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.loginContainer}
+      >
+        <View style={styles.innerContainer}>
+          <Text style={styles.loginh1}>Login</Text>
 
-        <View style={styles.formGroup}>
-          <Text style={styles.label}>Email address</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="email"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            ref={emailInputRef}
-            onChangeText={(text) =>
-              setLoginDetails({ ...loginDetails, email: text })
-            }
-          />
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Email address</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="email"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              ref={emailInputRef}
+              onChangeText={(text) =>
+                setLoginDetails({ ...loginDetails, email: text })
+              }
+            />
+          </View>
+
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Password</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="password"
+              secureTextEntry={true} // Hides password characters
+              onChangeText={(text) =>
+                setLoginDetails({ ...loginDetails, password: text })
+              }
+            />
+          </View>
+
+          <TouchableOpacity
+            style={[styles.loginSubmitBtn, loading && styles.disabledBtn]}
+            onPress={handleLoginSubmit}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              <Text style={styles.btnText}>Sign In</Text>
+            )}
+          </TouchableOpacity>
+
+          <Link href="/signup" style={styles.registerLink}>
+            <Text style={{ color: "#007bff" }}>
+              Dont have an account? Register
+            </Text>
+          </Link>
         </View>
-
-        <View style={styles.formGroup}>
-          <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="password"
-            secureTextEntry={true} // Hides password characters
-            onChangeText={(text) =>
-              setLoginDetails({ ...loginDetails, password: text })
-            }
-          />
-        </View>
-
-        <TouchableOpacity
-          style={[styles.loginSubmitBtn, loading && styles.disabledBtn]}
-          onPress={handleLoginSubmit}
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator color="white" />
-          ) : (
-            <Text style={styles.btnText}>Sign In</Text>
-          )}
-        </TouchableOpacity>
-
-        <Link href="/signup" style={styles.registerLink}>
-          <Text style={{ color: "#007bff" }}>
-            Dont have an account? Register
-          </Text>
-        </Link>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
@@ -114,6 +119,10 @@ export default Login;
 
 // CSS converted to StyleSheet
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
   loginContainer: {
     flex: 1,
     backgroundColor: "#fff",

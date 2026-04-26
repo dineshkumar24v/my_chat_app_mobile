@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
@@ -16,6 +17,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { authentication, db } from "../firebaseConfig";
 
 // TSX: Defining the structure of our image state
@@ -127,75 +129,85 @@ const SignUp = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-    >
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Create Account</Text>
+    <SafeAreaView style={styles.safeArea} edges={["top"]}>
+      <StatusBar style="dark" backgroundColor="#fff" translucent={false} />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.keyboardContainer}
+      >
+        <ScrollView contentContainerStyle={styles.container}>
+          <Text style={styles.title}>Create Account</Text>
 
-        <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
-          <Image
-            source={
-              image.uri
-                ? { uri: image.uri }
-                : require("../assets/images/favicon1.png")
+          <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
+            <Image
+              source={
+                image.uri
+                  ? { uri: image.uri }
+                  : require("../assets/images/favicon1.png")
+              }
+              style={styles.avatar}
+            />
+            <Text style={styles.uploadText}>Upload Image</Text>
+          </TouchableOpacity>
+
+          <TextInput
+            style={styles.input}
+            placeholder="Display Name"
+            onChangeText={(text) =>
+              setSignUpDetails({ ...signUpDetails, name: text })
             }
-            style={styles.avatar}
           />
-          <Text style={styles.uploadText}>Upload Image</Text>
-        </TouchableOpacity>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Display Name"
-          onChangeText={(text) =>
-            setSignUpDetails({ ...signUpDetails, name: text })
-          }
-        />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            onChangeText={(text) =>
+              setSignUpDetails({ ...signUpDetails, email: text })
+            }
+          />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          onChangeText={(text) =>
-            setSignUpDetails({ ...signUpDetails, email: text })
-          }
-        />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            secureTextEntry
+            onChangeText={(text) =>
+              setSignUpDetails({ ...signUpDetails, password: text })
+            }
+          />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry
-          onChangeText={(text) =>
-            setSignUpDetails({ ...signUpDetails, password: text })
-          }
-        />
+          <TouchableOpacity
+            style={[styles.button, loading && styles.disabled]}
+            onPress={handleSignUpSubmit}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              <Text style={styles.btnText}>Sign Up</Text>
+            )}
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.button, loading && styles.disabled]}
-          onPress={handleSignUpSubmit}
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator color="white" />
-          ) : (
-            <Text style={styles.btnText}>Sign Up</Text>
-          )}
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => router.back()}>
-          <Text style={styles.backText}>Already have an account? Login</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </KeyboardAvoidingView>
+          <TouchableOpacity onPress={() => router.back()}>
+            <Text style={styles.backText}>Already have an account? Login</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
 export default SignUp;
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  keyboardContainer: {
+    flex: 1,
+  },
   container: {
     flexGrow: 1,
     justifyContent: "center",
