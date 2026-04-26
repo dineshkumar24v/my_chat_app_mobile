@@ -109,11 +109,7 @@ const UserList = () => {
           <TouchableOpacity
             style={[
               styles.userItem,
-              { backgroundColor: item.isSeen ? "transparent" : "#fdf8c4" },
-              {
-                borderLeftWidth: item.isSeen ? 0 : 5,
-                borderLeftColor: "#f7c604",
-              },
+              !item.isSeen && styles.unreadUserItem,
             ]}
             onPress={() => handleSelect(item)}
           >
@@ -166,6 +162,21 @@ const styles = StyleSheet.create({
     padding: 15,
     alignItems: "center",
     gap: 15,
+    marginHorizontal: 10,
+    marginVertical: 6,
+    borderRadius: 22,
+  },
+  unreadUserItem: {
+    backgroundColor: "rgba(255, 255, 255, 0.22)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.3)",
+    borderLeftWidth: 2,
+    borderLeftColor: "rgba(255, 245, 157, 0.9)",
+    shadowColor: "#ffffff",
+    shadowOpacity: 0.12,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 5,
   },
   avatar: { width: 50, height: 50, borderRadius: 25 },
   userTexts: { flex: 1 },
