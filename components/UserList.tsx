@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
   unreadOverlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(116, 113, 113, 0.08)",
-    borderLeftColor: "#53acfb",
+    borderLeftColor: "#0687f8",
     borderLeftWidth: 4,
   },
   avatar: { width: 50, height: 50, borderRadius: 25 },
