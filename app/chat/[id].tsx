@@ -111,6 +111,38 @@ const ChatRoom = () => {
 
     return () => subscription.remove();
   }, [chat?.messages]);
+  // Mark messages as seen when chat is opened or when new messages arrive
+  useEffect(() => {
+    if (!id || !chat?.messages?.length) return;
+
+    const syncSeenState = async () => {
+      if (!currentUser?.id) return;
+
+      const userChatsRef = doc(db, "userChats", currentUser.id);
+      const userChatsSnap = await getDoc(userChatsRef);
+
+      if (!userChatsSnap.exists()) return;
+
+      const chatEntries = userChatsSnap.data().chats || [];
+      const chatIndex = chatEntries.findIndex(
+        (entry: any) => entry.chatId === (id as string),
+      );
+
+      if (chatIndex === -1 || chatEntries[chatIndex].isSeen) return;
+
+      const updatedChats = [...chatEntries];
+      updatedChats[chatIndex] = {
+        ...updatedChats[chatIndex],
+        isSeen: true,
+      };
+
+      await updateDoc(userChatsRef, { chats: updatedChats });
+    };
+
+    syncSeenState().catch((error) => {
+      console.error("Failed to mark chat as seen:", error);
+    });
+  }, [chat?.messages, currentUser?.id, id]);
 
   const pickImage = async () => {
     if (isCurrentUserBlocked || isReceiverBlocked) return;
