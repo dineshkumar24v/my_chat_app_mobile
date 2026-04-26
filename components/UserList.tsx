@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     gap: 14,
   },
   readUserItem: {
-    backgroundColor: "rgba(255, 255, 255, 0.08)",
+    backgroundColor: "rgba(28, 11, 179, 0.08)",
     borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.05)",
   },
