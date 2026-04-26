@@ -159,7 +159,7 @@ export default function ContactProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0f1115",
+    backgroundColor: "transparent",
   },
   header: {
     flexDirection: "row",
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 16,
     paddingVertical: 14,
-    backgroundColor: "#171a21",
+    backgroundColor: "rgba(23, 26, 33, 0.94)",
     borderBottomWidth: 1,
     borderBottomColor: "#293142",
   },

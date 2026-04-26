@@ -202,7 +202,7 @@ export default function SettingsScreen() {
 
   if (!currentUser) {
     return (
-      <SafeAreaView style={[styles.safeArea, { backgroundColor: palette.screen }]}>
+      <SafeAreaView style={styles.safeArea}>
         <View style={styles.emptyState}>
           <Text style={[styles.emptyTitle, { color: palette.text }]}>
             No profile loaded
@@ -216,7 +216,7 @@ export default function SettingsScreen() {
   }
 
   return (
-    <SafeAreaView style={[styles.safeArea, { backgroundColor: palette.screen }]}>
+    <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={[styles.heroCard, { backgroundColor: palette.card }]}>
           <TouchableOpacity

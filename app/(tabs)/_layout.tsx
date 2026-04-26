@@ -4,7 +4,16 @@ import React from "react";
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        sceneStyle: { backgroundColor: "transparent" },
+        tabBarStyle: {
+          backgroundColor: "rgba(255, 255, 255, 0.92)",
+          borderTopWidth: 0,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{

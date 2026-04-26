@@ -390,13 +390,13 @@ export default ChatRoom;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#121212", // Dark background like your web app
+    backgroundColor: "transparent",
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
     padding: 15,
-    backgroundColor: "#1a1a1a", // Dark Navbar
+    backgroundColor: "rgba(26, 26, 26, 0.92)",
     borderBottomWidth: 1,
     borderBottomColor: "#595858",
   },
@@ -473,21 +473,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 12,
-    backgroundColor: "#464646",
+    backgroundColor: "rgba(70, 70, 70, 0.95)",
     borderTopWidth: 1,
     borderTopColor: "#969494",
     gap: 10,
   },
   input: {
     flex: 1,
-    backgroundColor: "#5a5a5a",
+    backgroundColor: "rgba(90, 90, 90, 0.95)",
     borderRadius: 25,
     paddingHorizontal: 15,
     color: "#fff",
     height: 45,
   },
   emojiPanel: {
-    backgroundColor: "#111827",
+    backgroundColor: "rgba(17, 24, 39, 0.96)",
     borderTopWidth: 1,
     borderTopColor: "#2b3548",
     paddingTop: 12,

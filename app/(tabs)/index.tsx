@@ -18,7 +18,7 @@ export default function HomeIndex() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "transparent",
     // On Android, we need to add padding for the status bar
     paddingTop: StatusBar.currentHeight,
   },

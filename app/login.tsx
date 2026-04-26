@@ -121,11 +121,11 @@ export default Login;
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "transparent",
   },
   loginContainer: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "transparent",
   },
   innerContainer: {
     flex: 1,

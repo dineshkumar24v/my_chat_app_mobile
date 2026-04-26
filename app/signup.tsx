@@ -203,7 +203,7 @@ export default SignUp;
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "transparent",
   },
   keyboardContainer: {
     flex: 1,
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: "center",
     padding: 20,
-    backgroundColor: "#fff",
+    backgroundColor: "transparent",
   },
   title: {
     fontSize: 28,
