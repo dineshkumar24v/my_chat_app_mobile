@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { useRootNavigationState, useRouter } from "expo-router";
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -60,8 +60,23 @@ const UserList = () => {
 
   const rootNavigationState = useRootNavigationState();
 
-  const handleSelect = (chat: any) => {
+  const handleSelect = async (chat: any) => {
     if (!rootNavigationState?.key) return;
+
+// Mark chat as seen when selected 
+    if (currentUser?.id && !chat.isSeen) {
+      const userChatsRef = doc(db, "userChats", currentUser.id);
+      const userChatsSnap = await getDoc(userChatsRef);
+
+      if (userChatsSnap.exists()) {
+        const chatEntries = userChatsSnap.data().chats || [];
+        const updatedChats = chatEntries.map((entry: any) =>
+          entry.chatId === chat.chatId ? { ...entry, isSeen: true } : entry,
+        );
+
+        await updateDoc(userChatsRef, { chats: updatedChats });
+      }
+    }
 
     changeChat(chat.chatId, chat.user);
 
