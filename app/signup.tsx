@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   uploadText: { marginTop: 10, color: "gray", textDecorationLine: "underline" },
   input: {
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: "#717070",
     padding: 15,
     borderRadius: 10,
     marginBottom: 15,
