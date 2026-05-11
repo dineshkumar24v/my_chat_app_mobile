@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
+import { useRouter } from "expo-router";
 import { signOut } from "firebase/auth";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import React, { useEffect, useMemo, useState } from "react";
@@ -44,6 +45,7 @@ const formatJoinedDate = (value: any) => {
 };
 
 export default function SettingsScreen() {
+  const router = useRouter();
   const systemTheme = useColorScheme() ?? "dark";
   const { currentUser, setCurrentUser } = useUserStore();
   const [darkModePreview, setDarkModePreview] = useState(systemTheme === "dark");
@@ -220,6 +222,16 @@ export default function SettingsScreen() {
       <ScrollView contentContainerStyle={styles.content}>
         <View style={[styles.heroCard, { backgroundColor: palette.card }]}>
           <TouchableOpacity
+            style={[styles.backButton, { backgroundColor: palette.cardAlt }]}
+            onPress={() => router.replace("/(tabs)")}
+            activeOpacity={0.8}
+            accessibilityRole="button"
+            accessibilityLabel="Back to user list"
+          >
+            <Ionicons name="arrow-back" size={22} color={palette.text} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
             style={styles.avatarButton}
             onPress={handleAvatarUpdate}
             activeOpacity={0.85}
@@ -389,6 +401,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
     paddingVertical: 28,
+    position: "relative",
+  },
+  backButton: {
+    position: "absolute",
+    left: 16,
+    top: 16,
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    alignItems: "center",
+    justifyContent: "center",
   },
   profileRing: {
     borderWidth: 3,
