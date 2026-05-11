@@ -225,9 +225,15 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: "#eee",
+    backgroundColor: "#fffefe",
+    borderColor: "#717070",
+    borderWidth: 1,
   },
-  uploadText: { marginTop: 10, color: "gray", textDecorationLine: "underline" },
+  uploadText: {
+    marginTop: 10,
+    color: "#007bff",
+    textDecorationLine: "underline",
+  },
   input: {
     borderWidth: 1,
     borderColor: "#717070",
