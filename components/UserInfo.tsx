@@ -113,8 +113,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 30,
     right: 0,
-    backgroundColor: "white",
-    borderRadius: 8,
+    backgroundColor: "transparent",
+    borderColor: "#667282",
+    borderWidth: 1,
+    borderRadius: 18,
     padding: 5,
     elevation: 5, // Android Shadow
     shadowColor: "#000", // iOS Shadow
@@ -126,8 +128,8 @@ const styles = StyleSheet.create({
   },
   logoutBtn: {
     backgroundColor: "#c30128",
-    padding: 10,
-    borderRadius: 5,
+    padding: 8,
+    borderRadius: 15,
     alignItems: "center",
   },
   logoutText: {
