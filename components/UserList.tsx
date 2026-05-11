@@ -63,7 +63,7 @@ const UserList = () => {
   const handleSelect = async (chat: any) => {
     if (!rootNavigationState?.key) return;
 
-// Mark chat as seen when selected 
+    // Mark chat as seen when selected
     if (currentUser?.id && !chat.isSeen) {
       const userChatsRef = doc(db, "userChats", currentUser.id);
       const userChatsSnap = await getDoc(userChatsRef);
@@ -101,13 +101,13 @@ const UserList = () => {
           <Ionicons
             name="search"
             size={20}
-            color="white"
+            color="rgba(1, 12, 53, 0.7)"
             style={{ opacity: 0.7 }}
           />
           <TextInput
             style={styles.searchInput}
             placeholder="Search...."
-            placeholderTextColor="rgba(255,255,255,0.7)"
+            placeholderTextColor="rgba(1, 12, 53, 0.7)"
             onChangeText={setSearchInput}
             value={searchInput}
           />
@@ -116,7 +116,7 @@ const UserList = () => {
           style={styles.plusIcon}
           onPress={() => setModalShow(true)}
         >
-          <Ionicons name="add" size={30} color="white" />
+          <Ionicons name="add" size={30} color="rgba(1, 12, 53, 0.7)" />
         </TouchableOpacity>
       </View>
 
@@ -186,20 +186,24 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     backgroundColor: "rgba(255, 255, 255, 0.34)",
-    borderRadius: 18,
+    borderColor: "#667282",
+    borderWidth: 2,
+    borderRadius: 28,
     paddingHorizontal: 14,
     alignItems: "center",
     height: 46,
   },
   searchInput: {
     flex: 1,
-    color: "#f8fbff",
+    color: "#001939",
     marginLeft: 8,
     fontSize: 16,
     fontWeight: "600",
   },
   plusIcon: {
     backgroundColor: "rgba(255, 255, 255, 0.34)",
+    borderColor: "#667282",
+    borderWidth: 2,
     borderRadius: 16,
     width: 46,
     height: 46,
@@ -208,7 +212,7 @@ const styles = StyleSheet.create({
   },
   userItem: {
     overflow: "hidden",
-    borderRadius: 20,
+    borderRadius: 18,
     marginHorizontal: 14,
     marginVertical: 5,
   },
@@ -221,8 +225,8 @@ const styles = StyleSheet.create({
   },
   readUserItem: {
     backgroundColor: "rgba(28, 11, 179, 0.08)",
-    borderWidth: 1,
-    borderColor: "rgba(3, 3, 3, 0.05)",
+    borderWidth: 3,
+    borderColor: "rgba(0, 23, 50, 0.05)",
   },
   unreadUserItem: {
     overflow: "hidden",
