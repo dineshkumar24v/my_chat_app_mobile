@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "#fff",
+    backgroundColor: "transparent",
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
     zIndex: 10, // Ensures dropdown stays on top
