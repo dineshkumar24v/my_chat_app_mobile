@@ -1,9 +1,13 @@
 import { Ionicons } from "@expo/vector-icons"; // Mobile equivalent of react-icons
+import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import {
   Alert,
+  Dimensions,
   Image,
+  Modal,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -15,9 +19,33 @@ import { useUserStore } from "../store/userStore";
 const UserInfo = () => {
   const { currentUser } = useUserStore();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ top: 0, right: 15 });
+  const menuButtonRef = useRef<View>(null);
   const router = useRouter();
 
+  useFocusEffect(
+    useCallback(() => {
+      return () => setDropdownOpen(false);
+    }, [])
+  );
+
+  const toggleDropdown = () => {
+    if (dropdownOpen) {
+      setDropdownOpen(false);
+      return;
+    }
+
+    menuButtonRef.current?.measureInWindow((x, y, width, height) => {
+      setMenuPosition({
+        top: y + height + 6,
+        right: Dimensions.get("window").width - x - width,
+      });
+      setDropdownOpen(true);
+    });
+  };
+
   const handleLogout = async () => {
+    setDropdownOpen(false);
     Alert.alert("Logout", "Are you sure you want to logout?", [
       { text: "Cancel", style: "cancel" },
       {
@@ -42,7 +70,10 @@ const UserInfo = () => {
     <View style={styles.userInfoCont}>
       <TouchableOpacity
         style={styles.user}
-        onPress={() => router.navigate("/explore")}
+        onPress={() => {
+          setDropdownOpen(false);
+          router.navigate("/explore");
+        }}
         activeOpacity={0.7}
         hitSlop={8}
       >
@@ -59,18 +90,33 @@ const UserInfo = () => {
       </TouchableOpacity>
 
       <View style={styles.icons}>
-        <TouchableOpacity onPress={() => setDropdownOpen(!dropdownOpen)}>
+        <TouchableOpacity ref={menuButtonRef} onPress={toggleDropdown}>
           <Ionicons name="ellipsis-horizontal" size={24} color="black" />
         </TouchableOpacity>
+      </View>
 
-        {dropdownOpen && (
-          <View style={styles.dropdown}>
+      <Modal
+        animationType="fade"
+        transparent
+        visible={dropdownOpen}
+        onRequestClose={() => setDropdownOpen(false)}
+      >
+        <Pressable
+          style={styles.dropdownOverlay}
+          onPress={() => setDropdownOpen(false)}
+        >
+          <Pressable
+            style={[
+              styles.dropdown,
+              { top: menuPosition.top, right: menuPosition.right },
+            ]}
+          >
             <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
               <Text style={styles.logoutText}>Logout</Text>
             </TouchableOpacity>
-          </View>
-        )}
-      </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </View>
   );
 };
@@ -109,10 +155,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "relative",
   },
+  dropdownOverlay: {
+    flex: 1,
+    backgroundColor: "transparent",
+  },
   dropdown: {
     position: "absolute",
-    top: 30,
-    right: 0,
     backgroundColor: "transparent",
     borderColor: "#667282",
     borderWidth: 1,
