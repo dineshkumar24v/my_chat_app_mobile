@@ -110,7 +110,7 @@ const AddUser = ({
             </View>
           )}
           <TouchableOpacity onPress={onClose} style={{ marginTop: 20 }}>
-            <Text style={{ color: "red", textAlign: "center" }}>Close</Text>
+            <Text style={{ color: "red", backgroundColor: "lightgray", textAlign: "center", padding: 10, borderRadius: 8 }}>Close</Text>
           </TouchableOpacity>
         </View>
       </View>
