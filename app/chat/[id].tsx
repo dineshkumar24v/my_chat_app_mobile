@@ -523,7 +523,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingHorizontal: 15,
     color: "#fff",
-    height: 45,
+    height: 40,
   },
   emojiPanel: {
     backgroundColor: "rgba(17, 24, 39, 0.96)",
