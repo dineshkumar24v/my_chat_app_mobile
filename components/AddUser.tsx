@@ -35,14 +35,37 @@ const AddUser = ({
   const { currentUser } = useUserStore();
 
   const handleSearch = async () => {
+    const searchedUsername = username.trim();
+    const normalizedUsername = searchedUsername.toLowerCase();
+
+    if (!normalizedUsername) {
+      setUser(null);
+      Alert.alert("Missing Username", "Please enter a username to search.");
+      return;
+    }
+
     try {
-      const q = query(
+      setUser(null);
+
+      const normalizedQuery = query(
         collection(db, "users"),
-        where("username", "==", username),
+        where("usernameLower", "==", normalizedUsername),
       );
-      const querySnap = await getDocs(q);
-      if (!querySnap.empty) {
-        setUser(querySnap.docs[0].data());
+      const normalizedSnap = await getDocs(normalizedQuery);
+
+      if (!normalizedSnap.empty) {
+        setUser(normalizedSnap.docs[0].data());
+        return;
+      }
+
+      const usersSnap = await getDocs(collection(db, "users"));
+      const matchingUser = usersSnap.docs.find(
+        (userDoc) =>
+          userDoc.data().username?.trim().toLowerCase() === normalizedUsername,
+      );
+
+      if (matchingUser) {
+        setUser(matchingUser.data());
       } else {
         Alert.alert("Not Found", "User does not exist.");
       }

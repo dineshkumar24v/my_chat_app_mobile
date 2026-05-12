@@ -107,7 +107,8 @@ const SignUp = () => {
 
       // 3. Save to Firestore
       await setDoc(doc(db, "users", uid), {
-        username: signUpDetails.name,
+        username: signUpDetails.name.trim(),
+        usernameLower: signUpDetails.name.trim().toLowerCase(),
         email: signUpDetails.email,
         id: uid,
         timeStamp: Date.now(),
