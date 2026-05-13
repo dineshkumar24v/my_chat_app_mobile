@@ -77,6 +77,7 @@ const ChatRoom = () => {
   const [emojiVisible, setEmojiVisible] = useState(false);
 
   const flatListRef = useRef<FlatList>(null);
+  const isChatBlocked = isCurrentUserBlocked || isReceiverBlocked;
 
   useEffect(() => {
     if (!id) return;
@@ -111,6 +112,13 @@ const ChatRoom = () => {
 
     return () => subscription.remove();
   }, [chat?.messages]);
+
+  useEffect(() => {
+    if (isChatBlocked) {
+      setEmojiVisible(false);
+    }
+  }, [isChatBlocked]);
+
   // Mark messages as seen when chat is opened or when new messages arrive
   useEffect(() => {
     if (!id || !chat?.messages?.length) return;
@@ -145,7 +153,7 @@ const ChatRoom = () => {
   }, [chat?.messages, currentUser?.id, id]);
 
   const pickImage = async () => {
-    if (isCurrentUserBlocked || isReceiverBlocked) return;
+    if (isChatBlocked) return;
 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ["images"],
@@ -189,6 +197,7 @@ const ChatRoom = () => {
   };
 
   const sendMessage = async (imgUrl: string | null = null, text: string) => {
+    if (isChatBlocked) return;
     if (!text && !imgUrl) return;
 
     const chatIdStr = id as string;
@@ -241,6 +250,11 @@ const ChatRoom = () => {
   };
 
   const handleToggleEmojiPicker = () => {
+    if (isChatBlocked) {
+      setEmojiVisible(false);
+      return;
+    }
+
     if (emojiVisible) {
       setEmojiVisible(false);
       return;
@@ -251,6 +265,8 @@ const ChatRoom = () => {
   };
 
   const handleEmojiSelect = (emoji: string) => {
+    if (isChatBlocked) return;
+
     setWriteText((prev) => `${prev}${emoji}`);
   };
 
@@ -344,34 +360,39 @@ const ChatRoom = () => {
 
         {/* Input Area */}
         <View style={styles.inputBar}>
-          <TouchableOpacity onPress={pickImage}>
-            <Ionicons name="image" size={28} color="#53acfb" />
+          <TouchableOpacity onPress={pickImage} disabled={isChatBlocked}>
+            <Ionicons
+              name="image"
+              size={28}
+              color={isChatBlocked ? "#ccc" : "#53acfb"}
+            />
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleToggleEmojiPicker}>
+          <TouchableOpacity
+            onPress={handleToggleEmojiPicker}
+            disabled={isChatBlocked}
+          >
             <Ionicons
               name={emojiVisible ? "happy" : "happy-outline"}
               size={28}
-              color="#facc15"
+              color={isChatBlocked ? "#ccc" : "#facc15"}
             />
           </TouchableOpacity>
           <TextInput
             style={styles.input}
-            placeholder={
-              isCurrentUserBlocked || isReceiverBlocked ? "Blocked" : "Type..."
-            }
+            placeholder={isChatBlocked ? "Blocked" : "Type Message..."}
             value={writeText}
             onChangeText={setWriteText}
-            editable={!isCurrentUserBlocked && !isReceiverBlocked}
+            editable={!isChatBlocked}
             onFocus={() => setEmojiVisible(false)}
           />
           <TouchableOpacity
             onPress={() => sendMessage(null, writeText)}
-            disabled={loading || !writeText.trim()}
+            disabled={isChatBlocked || loading || !writeText.trim()}
           >
             <Ionicons
               name="send"
               size={28}
-              color={writeText.trim() ? "#53acfb" : "#ccc"}
+              color={!isChatBlocked && writeText.trim() ? "#53acfb" : "#ccc"}
             />
           </TouchableOpacity>
         </View>
