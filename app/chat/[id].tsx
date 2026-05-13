@@ -75,6 +75,7 @@ const ChatRoom = () => {
   const [loading, setLoading] = useState(false);
   const [detailsVisible, setDetailsVisible] = useState(false);
   const [emojiVisible, setEmojiVisible] = useState(false);
+  const [androidKeyboardOffset, setAndroidKeyboardOffset] = useState(0);
 
   const flatListRef = useRef<FlatList>(null);
   const isChatBlocked = isCurrentUserBlocked || isReceiverBlocked;
@@ -112,6 +113,22 @@ const ChatRoom = () => {
 
     return () => subscription.remove();
   }, [chat?.messages]);
+
+  useEffect(() => {
+    if (Platform.OS !== "android") return;
+
+    const showSubscription = Keyboard.addListener("keyboardDidShow", (event) => {
+      setAndroidKeyboardOffset(event.endCoordinates.height);
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setAndroidKeyboardOffset(0);
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   useEffect(() => {
     if (isChatBlocked) {
@@ -301,7 +318,12 @@ const ChatRoom = () => {
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         keyboardVerticalOffset={Platform.OS === "ios" ? 90 : undefined}
-        style={{ flex: 1 }}
+        style={[
+          styles.keyboardContainer,
+          Platform.OS === "android" && {
+            paddingBottom: androidKeyboardOffset,
+          },
+        ]}
       >
         {/* Messages List */}
         <FlatList
@@ -444,6 +466,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "transparent",
+  },
+  keyboardContainer: {
+    flex: 1,
   },
   header: {
     flexDirection: "row",
