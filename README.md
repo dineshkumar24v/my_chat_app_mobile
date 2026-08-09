@@ -4,11 +4,11 @@
 
 <div align="center">
 
-[![React Native](https://img.shields.io/badge/React%20Native-Mobile%20App-61DAFB?style=for-the-badge&logo=react&logoColor=black)](#tech-stack)
-[![Expo](https://img.shields.io/badge/Expo-Cross--platform-000020?style=for-the-badge&logo=expo&logoColor=white)](#tech-stack)
-[![Firebase](https://img.shields.io/badge/Firebase-Authentication%20%26%20Database-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](#tech-stack)
-[![Zustand](https://img.shields.io/badge/Zustand-State%20Management-443E38?style=for-the-badge)](#tech-stack)
-[![Cloudinary](https://img.shields.io/badge/Cloudinary-Image%20Uploads-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white)](#tech-stack)
+[![React Native](https://img.shields.io/badge/React%20Native-Mobile%20App-0EA5E9?style=for-the-badge&logo=react&logoColor=white)](#tech-stack)
+[![Expo](https://img.shields.io/badge/Expo-Cross--platform-111827?style=for-the-badge&logo=expo&logoColor=white)](#tech-stack)
+[![Firebase](https://img.shields.io/badge/Firebase-Authentication%20%26%20Database-F59E0B?style=for-the-badge&logo=firebase&logoColor=white)](#tech-stack)
+[![Zustand](https://img.shields.io/badge/Zustand-State%20Management-7C3AED?style=for-the-badge)](#tech-stack)
+[![Cloudinary](https://img.shields.io/badge/Cloudinary-Image%20Uploads-2563EB?style=for-the-badge&logo=cloudinary&logoColor=white)](#tech-stack)
 
 </div>
 
