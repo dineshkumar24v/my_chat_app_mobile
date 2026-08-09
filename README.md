@@ -1,54 +1,97 @@
-<<<<<<< HEAD
-# my_chat_app_mobile
-=======
-# Welcome to your Expo app 👋
+# My Chat App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A cross-platform mobile chat application built with React Native and Expo. The project demonstrates an end-to-end messaging experience: account creation, profile setup, user discovery, real-time conversations, image sharing, and chat controls.
 
-## Get started
+## Why this project
 
-1. Install dependencies
+This app was built to apply production-minded mobile patterns to a social product: authentication-gated navigation, real-time UI updates, cloud-backed user data, local client state, and responsive interactions that work around mobile keyboards and safe areas.
+
+## Highlights
+
+- Email and password authentication with Firebase Authentication
+- New-user onboarding with display name and optional avatar upload
+- User search and one-to-one conversation creation
+- Real-time message and conversation-list updates via Firestore listeners
+- Text, emoji, and image messages; uploaded images are hosted with Cloudinary
+- Seen/unseen conversation state and relative message timestamps
+- Profile viewing, blocking/unblocking, and clearing conversations
+- Mobile-focused UX including safe areas, keyboard avoidance, image picking, haptics, and adaptive navigation
+
+## Tech stack
+
+| Area             | Technologies                                          |
+| ---------------- | ----------------------------------------------------- |
+| Mobile app       | React Native, Expo, TypeScript                        |
+| Navigation       | Expo Router                                           |
+| Backend services | Firebase Authentication, Cloud Firestore              |
+| Client state     | Zustand                                               |
+| Media            | Expo Image Picker, Cloudinary                         |
+| UI               | Expo Vector Icons, Expo Blur, React Native StyleSheet |
+| Utilities        | Axios, date-fns                                       |
+
+## Architecture at a glance
+
+```text
+app/             File-based screens and navigation
+components/      Reusable chat, user, and UI components
+store/           Zustand stores for the signed-in user and active chat
+firebaseConfig.js Firebase initialization and service exports
+assets/          Images and app branding assets
+```
+
+Firestore holds user profiles, chat documents, and each user's conversation index. Snapshot listeners keep the inbox and open conversation synchronized while Zustand provides lightweight shared state for the active user and chat.
+
+## Run locally
+
+### Prerequisites
+
+- Node.js (LTS recommended)
+- Expo Go on a physical device, or an Android/iOS emulator
+- A Firebase project with Email/Password authentication and Cloud Firestore enabled
+
+### Setup
+
+1. Install dependencies:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+2. Create a `.env` file and add the public Firebase configuration values used by `firebaseConfig.js`:
 
-   ```bash
-   npx expo start
+   ```env
+   EXPO_PUBLIC_FIREBASE_API_KEY=your_value
+   EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=your_value
+   EXPO_PUBLIC_FIREBASE_PROJECT_ID=your_value
+   EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=your_value
+   EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_value
+   EXPO_PUBLIC_FIREBASE_APP_ID=your_value
    ```
 
-In the output, you'll find options to open the app in a
+3. Start Expo:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   ```bash
+   npm start
+   ```
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+4. Choose a target from the Expo terminal, or run one directly:
 
-## Get a fresh project
+   ```bash
+   npm run android
+   npm run ios
+   npm run web
+   ```
 
-When you're ready, run:
+## Quality checks
 
 ```bash
-npm run reset-project
+npm run lint
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Product opportunities
 
-## Learn more
+Potential next steps include moving Cloudinary configuration to environment variables, adding Firestore security rules and automated tests, supporting push notifications, and introducing pagination for large conversation histories.
 
-To learn more about developing your project with Expo, look at the following resources:
+## Author
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
->>>>>>> d6e4332 (firstcommit)
+Built by **Dinesh** as a React Native portfolio project.
