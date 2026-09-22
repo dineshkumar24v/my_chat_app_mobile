@@ -7,25 +7,17 @@
     "icon": "./assets/images/team.png",
     "scheme": "mychatappmobile",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
-    },
-    "splash": {
-      "image": "./assets/images/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#121212"
     },
     "android": {
       "package": "com.dinesh0012.chatapp",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#121212",
         "foregroundImage": "./assets/images/chat.png",
         "backgroundImage": "./assets/images/chat.png",
-        "monochromeImage": "./assets/images/chat.png",
-        "backgroundColor": "#121212"
+        "monochromeImage": "./assets/images/chat.png"
       },
-      "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
     "web": {
@@ -45,7 +37,11 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-font",
+      "expo-image",
+      "expo-status-bar",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
