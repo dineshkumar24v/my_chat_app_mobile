@@ -5,7 +5,7 @@
 <div align="center">
 
 [![React Native](https://img.shields.io/badge/React%20Native-Mobile%20App-0EA5E9?style=for-the-badge&logo=react&logoColor=white)](#tech-stack)
-[![Expo](https://img.shields.io/badge/Expo-Cross--platform-111827?style=for-the-badge&logo=expo&logoColor=white)](#tech-stack)
+[![Expo SDK](https://img.shields.io/badge/Expo%20SDK-57-111827?style=for-the-badge&logo=expo&logoColor=white)](#tech-stack)
 [![Firebase](https://img.shields.io/badge/Firebase-Authentication%20%26%20Database-F59E0B?style=for-the-badge&logo=firebase&logoColor=white)](#tech-stack)
 [![Zustand](https://img.shields.io/badge/Zustand-State%20Management-7C3AED?style=for-the-badge)](#tech-stack)
 [![Cloudinary](https://img.shields.io/badge/Cloudinary-Image%20Uploads-2563EB?style=for-the-badge&logo=cloudinary&logoColor=white)](#tech-stack)
@@ -33,7 +33,7 @@ This app was built to apply production-minded mobile patterns to a social produc
 
 | Area             | Technologies                                          |
 | ---------------- | ----------------------------------------------------- |
-| Mobile app       | React Native, Expo, TypeScript                        |
+| Mobile app       | Expo SDK 57, React Native 0.86, React 19.2, TypeScript |
 | Navigation       | Expo Router                                           |
 | Backend services | Firebase Authentication, Cloud Firestore              |
 | Client state     | Zustand                                               |
@@ -57,8 +57,8 @@ Firestore holds user profiles, chat documents, and each user's conversation inde
 
 ### Prerequisites
 
-- Node.js (LTS recommended)
-- Expo Go on a physical device, or an Android/iOS emulator
+- Node.js 22.13 or later
+- Expo Go for SDK 57 on a physical device, or an Android/iOS emulator
 - A Firebase project with Email/Password authentication and Cloud Firestore enabled
 
 ### Setup
@@ -80,10 +80,10 @@ Firestore holds user profiles, chat documents, and each user's conversation inde
    EXPO_PUBLIC_FIREBASE_APP_ID=your_value
    ```
 
-3. Start Expo:
+3. Start Expo with a clean bundler cache (particularly after upgrading the SDK):
 
    ```bash
-   npm start
+   npx expo start --clear
    ```
 
 4. Choose a target from the Expo terminal, or run one directly:
@@ -97,8 +97,11 @@ Firestore holds user profiles, chat documents, and each user's conversation inde
 ## Quality checks
 
 ```bash
+npx expo-doctor
 npm run lint
 ```
+
+`expo-doctor` verifies that the installed packages and app configuration are compatible with Expo SDK 57.
 
 ## Product opportunities
 
